@@ -5,3 +5,5 @@ wp-config-sample.php
 .project
 .settings/
 wp-content/uploads/
+wp-content/themes/storefront-child/public/js/bundle.js
+wp-content/themes/storefront-child/node_modules/

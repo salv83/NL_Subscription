@@ -10,3 +10,10 @@ function storefront_child_enqueue_styles() {
         wp_get_theme()->get('Version')
     );
 }
+
+/* Add the webpack script  - bundle.js - */
+add_action('wp_enqueue_scripts', 'storefront_child_scripts');
+
+function storefront_child_scripts() {
+    wp_enqueue_script( 'theme_js', get_stylesheet_directory_uri() . '/public/js/bundle.js', array('jquery'), '', true );
+}
