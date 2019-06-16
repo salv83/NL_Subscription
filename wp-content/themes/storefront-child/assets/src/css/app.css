@@ -1,4 +1,50 @@
-/*Test css rule*/
-div{
-    background-color:green;
+.newsletter__form_container{
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+.newsletter__form{
+    padding: 20px;
+}
+
+.newsletter__form input[type=text],
+.newsletter__form input[type="submit"]{
+    margin: 10px 0px !important;
+    width: 100%;
+}
+
+.newsletter__form.newsletter__form_dark_layout{
+	color: #000;
+	box-shadow: 0 -1px 0 #e5e5e5, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+}
+
+.newsletter__form_dark_layout .newsletter__submit {
+	background-color:#333;
+	color: #fff;
+}
+
+.newsletter__form.newsletter__form_light_layout{
+	color: #fff;
+	border: 1px solid #fff;
+}
+
+.newsletter__form_light_layout .newsletter__submit {
+	background-color:#fff;
+	color: #333;
+}
+
+.newsletter__check_error{
+    background-color: #F80000;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    text-align:center;
+}
+
+.newsletter__check_success{
+    background-color: #50AE00;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    text-align:center;
 }
