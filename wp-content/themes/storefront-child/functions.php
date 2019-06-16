@@ -87,3 +87,33 @@ function newsletter_subscription($atts = array(), $content = null, $tag) {
     return $output_string;
 }
 add_shortcode( 'newsletter-subscription', 'newsletter_subscription' );
+
+
+/*
+ * The action add_birthday_field_to_checkout will create a new text field in the checkout form
+ * of woocommerce, I will this field to get the user's date of Birthday 
+ */
+add_action('woocommerce_before_checkout_billing_form', 'add_birthday_field_to_checkout');
+
+function add_birthday_field_to_checkout($checkout) {
+    woocommerce_form_field( 'billing_customer_birthday', array(
+        'type'     => 'text',
+        'label'    => __( 'Birthday (DD/MM/YYYY)' ),
+        'required' => true
+    ), $checkout->get_value('billing_customer_birthday') );
+}
+
+
+/*
+ * The action add_gender_field_to_checkout will create a new text field in the checkout form
+ * of woocommerce, I will this field to get the user's gender
+ */
+add_action('woocommerce_before_checkout_billing_form', 'add_gender_field_to_checkout');
+
+function add_gender_field_to_checkout($checkout) {
+    woocommerce_form_field( 'billing_customer_gender', array(
+        'type'     => 'text',
+        'label'    => __( 'Gender (m/f/x)' ),
+        'required' => true
+    ), $checkout->get_value('billing_customer_gender') );
+}
