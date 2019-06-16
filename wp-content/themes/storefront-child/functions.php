@@ -175,3 +175,47 @@ function add_gender_field_to_checkout($checkout) {
     </script>
     <?php
 }
+
+/*
+ * Now we have to disable the possibility to proceed with the checkout for users who don't have
+ * inserted the right data inside the fields and also for users who put the correct data format
+ * but are younger than 18 years. In order to do this we use these two actions gender_field_validation
+ * and birthday_field_validation.
+ * The action birthday_field_validation will do the same check done by the jQuery function above
+ * in case of errors it will display woocommerce NoticeGroup and will not allow to the user to 
+ * proceed with the checkout. The same behaviour will be applied by the gender_field_validation action. 
+ */
+add_action( 'woocommerce_checkout_process', 'birthday_field_validation' );
+
+function birthday_field_validation() {
+    if ( isset( $_POST['billing_customer_birthday'] ) && empty( $_POST['billing_customer_birthday'] ) ){
+        wc_add_notice( __( 'Please insert your birthday', 'woocommerce' ), 'error' );
+    }else{
+        $regex="/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/";
+        $check = preg_match($regex,$_POST['billing_customer_birthday']);
+        if (!$check) {
+            wc_add_notice( __( 'Wrong date format: '.$_POST['billing_customer_birthday'], 'woocommerce' ), 'error' );
+        }else{
+            $customerdata = explode("/", $_POST['billing_customer_birthday']);
+            $customeryear = intval($customerdata[2]);
+            $currentyear = intval(date("Y"));
+            if($currentyear-$customeryear<18){
+                wc_add_notice( __( 'You are not allowed to continue the purchase, you must be older than 18 years', 'woocommerce' ), 'error' );
+            }
+        }
+    }
+}
+
+add_action( 'woocommerce_checkout_process', 'gender_field_validation' );
+
+function gender_field_validation() {
+    $gender=$_POST['billing_customer_gender'];
+    $test1 = strcmp($gender,"m");
+    $test2 = strcmp($gender,"f");
+    $test3 = strcmp($gender,"x");
+    if ( ($test1==0)||($test2==0)||($test3==0)){
+        /* The field is fine */
+    }else{
+        wc_add_notice( __( 'Please insert a correct value for the Gender field', 'woocommerce' ), 'error' );
+    }
+}
