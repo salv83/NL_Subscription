@@ -1,0 +1,7 @@
+.htaccess
+wp-config.php
+wp-config-sample.php
+.buildpath
+.project
+.settings/
+wp-content/uploads/
