@@ -101,6 +101,41 @@ function add_birthday_field_to_checkout($checkout) {
         'label'    => __( 'Birthday (DD/MM/YYYY)' ),
         'required' => true
     ), $checkout->get_value('billing_customer_birthday') );
+    ?>
+    <script type="text/javascript">
+    
+    /* While the user is typing something inside the Birthday fields this script will check if
+    the value inserted in the field corresponds to the date format DD/MM/YYYY, it checks if the
+    value match with the regular expression of the date, if not it will display an error message,
+    if yes it extract the year inserted by the user from the value, it get the current year and
+    calculate the age of the user, if this age is < 18 it will display an error to the user, if
+    the age is >= 18 it will display a success message */
+
+    jQuery( "<p class='birthday_check'></p>" ).insertAfter( "#billing_customer_birthday" );
+    jQuery('#billing_customer_birthday').keyup(function(){	
+        value = jQuery('#billing_customer_birthday').val();
+        var re = /([0-9]{2})\/([0-9]{2})\/([0-9]{4})/;
+        if(!re.test(value)){
+        	jQuery('.birthday_check').addClass("birthday_check_error");
+        	jQuery('.birthday_check').removeClass("birthday_check_success");
+        	jQuery('.birthday_check').text("Wrong date format");
+        }else{
+        	var data = value.split("/");
+        	var year = data[2];
+        	var currentyear = new Date().getFullYear();
+        	if(currentyear - year<18){
+            	jQuery('.birthday_check').addClass("birthday_check_error");
+            	jQuery('.birthday_check').removeClass("birthday_check_success");
+        		jQuery('.birthday_check').text("You are not allowed to continue the purchase, you must be older than 18 years");
+        	} else{
+            	jQuery('.birthday_check').removeClass("birthday_check_error");
+            	jQuery('.birthday_check').addClass("birthday_check_success");
+        		jQuery('.birthday_check').text("Date Format OK");
+        	}
+        } 
+    });
+    </script>
+    <?php
 }
 
 
@@ -116,4 +151,27 @@ function add_gender_field_to_checkout($checkout) {
         'label'    => __( 'Gender (m/f/x)' ),
         'required' => true
     ), $checkout->get_value('billing_customer_gender') );
+    ?>    
+    <script type="text/javascript">
+
+    /* The method simply check if the value inserted by the user corresponds to one of the characters: m,f,x
+     * if yes it display a success message, if not it display an error
+     */
+     
+    jQuery( "<p class='gender_check'></p>" ).insertAfter( "#billing_customer_gender" );
+    jQuery('#billing_customer_gender').keyup(function(){	
+        value = jQuery('#billing_customer_gender').val();
+        if ( (value=="m")||(value=="f")||(value=="x")){
+        	jQuery('.gender_check').removeClass("gender_check_error");
+        	jQuery('.gender_check').addClass("gender_check_success");
+        	jQuery('.gender_check').text("Gender Field OK");
+        	
+        }else{
+        	jQuery('.gender_check').removeClass("gender_check_success");
+        	jQuery('.gender_check').addClass("gender_check_error");
+        	jQuery('.gender_check').text("Wrong value for the Gender Field");
+        }   
+    });
+    </script>
+    <?php
 }
