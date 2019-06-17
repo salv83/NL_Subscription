@@ -48,13 +48,3 @@
     padding: 10px;
     text-align:center;
 }
-
-.birthday_check_success,
-.gender_check_success{
-    color: #50AE00;
-}
-
-.birthday_check_error,
-.gender_check_error{
-    color: #F80000;
-}
